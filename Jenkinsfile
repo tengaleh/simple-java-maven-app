@@ -6,16 +6,26 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repo') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/spring-projects/spring-petclinic.git'
+                git branch: 'master',
+                url: 'https://github.com/tengaleh/simple-java-maven-app.git'
             }
         }
 
-        stage('Build') {
+        stage('Build with Maven') {
             steps {
                 sh 'mvn clean package'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build Successful!'
+        }
+        failure {
+            echo 'Build Failed!'
         }
     }
 }
